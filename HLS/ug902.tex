@@ -1,0 +1,165 @@
+% \iffalse
+% High-Level Synthesis Benefits                   
+% High-Level Synthesis Basics                     
+% Understanding Vivado HLS                        
+% Using Vivado HLS                                
+% Data Types for Efficient Hardware               
+% Managing Interfaces                             
+% Optimizing the Design                           
+% Verifying the RTL                               
+% Exporting the RTL Design    
+
+% \chapter{High-Level Synthesis C Libraries}
+% Arbitrary Precision Data Types Library          
+% HLS Stream Library                              
+% HLS Math Library                                
+% HLS Video Library                               
+% HLS IP Libraries                                
+% HLS Linear Algebra Library                      
+% HLS DSP Library                                 
+% HLS SQL Library   
+
+% \chapter{High-Level Synthesis Coding Styles}
+% Unsupported C Constructs                        
+% C Test Bench                                    
+% Functions                                       
+% Loops                                           
+% Arrays                                          
+% Data Types                                      
+% C Builtin Functions                             
+% Hardware Efficient C Code      
+
+% C++ Classes and Templates                              
+% Assertions                                               
+% SystemC Synthesis 
+
+% \chapter{High-Level Synthesis Reference Guide}
+% Command Reference                                        
+% GUI Reference                                            
+% Interface Synthesis Reference                            
+% AXI4-Lite Slave C Driver Reference                       
+% HLS Video Functions Library                              
+% HLS Linear Algebra Library Functions                     
+% HLS DSP Library Functions                                
+% HLS SQL Library Functions                                
+% C Arbitrary Precision Types                              
+% C++ Arbitrary Precision Types                            
+% C++ Arbitrary Precision Fixed-Point Types                
+% Comparison of SystemC and Vivado HLS Types               
+
+% \fi
+
+% \section{Introduction}
+% The Xilinx Vivado High-Level Synthesis (HLS) tool transforms a C specification into a register transfer level (RTL) implementation that can be synthesized into a Xilinx field programmable gate array (FPGA). C specifications can be written in C, C++, or SystemC, and the FPGA provides a massively parallel architecture with benefits in performance, cost, and power over traditional processors.
+
+% \par Vitis/Vivado HLS is a high-level synthesis tool that allows C, C++, and OpenCL functions to become hardwired onto the device logic fabric and RAM/DSP blocks. Vitis/Vivado HLS implements hardware kernels in the Vitis application acceleration development flow and uses C/C++ code for developing RTL IP for Xilinx device designs in the Vivado Design Suite.
+
+% \section{High-Level Synthesis Benefits}
+% High-level synthesis bridges hardware and software domains, providing the following benefits:
+% \begin{itemize}
+%   \item Improved productivity for hardware designers:\\ Hardware designers can work at a higher level of abstraction while creating high-performance hardware.
+%   \item Improved system performance for software designers:\\ Software developers can accelerate the computationally intensive parts of their algorithms on a new compilation target, the FPGA. 
+% \end{itemize}
+
+% Using a high-level synthesis design methodology allows you to:
+% \begin{itemize}
+%   \item Develop algorithms at the C-level:\\ Work at a level that is abstract from the implementation details, which consume development time.
+%   \item Verify at the C-level:\\ Validate the functional correctness of the design more quickly than with traditional hardware description languages.
+%   \item Control the C synthesis process through optimization directives:\\ Create specific high-performance hardware implementations.
+%   \item Create multiple implementations from the C source code using optimization directives:\\ Explore the design space, which increases the likelihood of finding an optimal implementation.
+%   \item Create readable and portable C source code:\\ Retarget the C source into different devices as well as incorporate the C source into new projects.
+% \end{itemize}
+
+% \section{High-Level Synthesis Basics}   
+% High-level synthesis includes the following phases:
+% \begin{itemize}
+%   \item Scheduling
+%     Determines which operations occur during each clock cycle based on:
+%     \begin{itemize}
+%       \item Length of the clock cycle or clock frequency.
+%       \item Time it takes for the operation to complete, as defined by the target device.
+%       \item User-specified optimization directives.
+%     \end{itemize}
+%     If the clock period is longer or a faster FPGA is targeted, more operations are completed within a single clock cycle, and all operations might complete in one clock cycle. Conversely, if the clock period is shorter or a slower FPGA is targeted, high-level synthesis automatically schedules the operations over more clock cycles, and some operations might need to be  implemented as multicycle resources.
+%     \item Binding
+%     Determines which hardware resource implements each scheduled operation. To implement
+%     the optimal solution, high-level synthesis uses information about the target device.
+%     \item Control logic extraction
+%     Extracts the control logic to create a finite state machine (FSM) that sequences the operations
+%     in the RTL design.
+% \end{itemize}
+
+% High-level synthesis synthesizes the C code as follows:
+% \begin{itemize}
+%   \item Top-level function arguments synthesize into RTL I/O ports.
+%   \item C functions synthesize into blocks in the RTL hierarchy:\\ If the C code includes a hierarchy of sub-functions, the final RTL design includes a hierarchy of modules or entities that have a one-to-one correspondence with the original C function hierarchy. All instances of a function use the same RTL implementation or block.
+%   \item Loops in the C functions are kept rolled by default When loops are rolled, synthesis creates the logic for one iteration of the loop, and the RTL design executes this logic for each iteration of the loop in sequence. Using optimization directives, you can unroll loops, which allows all iterations to occur in parallel. Loops can also be pipelined, either with a finite-state machine fine-grain implementation (loop pipelining) or with a more coarse-grain handshake-based implementation (dataflow).
+%   \item Arrays in the C code synthesize into block RAM or UltraRAM in the final FPGA design
+%   If the array is on the top-level function interface, high-level synthesis implements the array as
+%   ports to access a block RAM outside the design.
+%   High-level synthesis creates an optimized implementation based on default behavior, constraints,
+%   and any optimization directives you specify. You can use optimization directives to modify and
+%   control the default behavior of the internal logic and I/O ports. This allows you to generate
+%   variations of the hardware implementation from the same C code.
+%   To determine if the design meets your requirements, you can review the performance metrics in
+%   the synthesis report generated by high-level synthesis. After analyzing the report, you can use
+%   optimization directives to refine the implementation. The synthesis report contains information
+%   on the following performance metrics:
+%   \item Area: Amount of hardware resources required to implement the design based on the resources
+%   available in the FPGA, including look-up tables (LUT), registers, block RAMs, and DSP48s.
+%   \item Latency: Number of clock cycles required for the function to compute all output values.
+%   \item Initiation interval (II): Number of clock cycles before the function can accept new input data.
+%   \item Loop iteration latency: Number of clock cycles it takes to complete one iteration of the loop.
+%   \item Loop initiation interval: Number of clock cycles before the next iteration of the loop starts to
+%   process data.
+%   \item Loop latency: Number of cycles to execute all iterations of the loop.
+% \end{itemize}
+
+
+
+% HLS includes the following stages:
+% \begin{enumerate}
+% \item Scheduling determines which operations occur during each clock cycle based on:
+%     \begin{itemize}
+%         \item When an operation's dependencies have been satisfied or are available.
+%         \item The length of the clock cycle or clock frequency.
+%         \item The time it takes for the operation to complete, as defined by the target device.
+%         \item The available resource allocation.
+%         \item Incorporation of any user-specified optimization directives.
+%     \end{itemize}
+% TIP: More operations can be completed in a single clock cycle for longer clock periods, or if a faster device is targeted, and all operations might complete in one clock cycle. However, for shorter clock periods, or when slower devices are targeted, HLS automatically schedules operations over more clock cycles. Some operations might need to be implemented as multi-cycle resources.
+% \item Binding assigns hardware resources to implement each scheduled operation, and maps operators (such as addition, multiplication, and shift) to specific RTL implementations. For example, a mult operation can be implemented in RTL as a combinational or pipelined multiplier.
+% \item Control logic extraction creates a finite state machine (FSM) that sequences the operations in the RTL design according to the defined schedule.
+% \end{enumerate}
+
+% \subsection{Scheduling}
+% Scheduling
+
+% \subsection{Binding}
+% Binding assigns hardware resources to implement each 
+
+% \subsection{Control Logic} 
+% Control Logic extraction creates a finite state machine (FSM) that sequences the operations in the RTL design according to the defined schedule.
+
+
+% \section{Understanding Vivado HLS}                        
+% \section{Using Vivado HLS}                                
+% \section{Data Types for Efficient Hardware}
+% \section{Managing Interfaces}                
+% \section{Optimizing the Design}                           
+% \section{Verifying the RTL}                               
+% \section{Exporting the RTL Design}
+
+
+% Vivado HLS provides a number of optional C libraries to enable higher productivity and high performance RTL design these include arbitrate precision libraries allowing operations to be performed any arbitrary precision for example 10 bit, 25 bit or 42 bits rather than just the standard 8, 16, 32 and 64 bit provided in the C language. Video libraries allowing you to easily implement many of the most popular open CV video functions, unmask linear algebra and DSP libraries providing high quality RTL implementations of sine, cosine, cholesky and Viterbi decoder among others.
+
+% In the Vitis application acceleration flow, the Vitis HLS tool automates much of the code modifications required to implement and optimize the C/C++ code in programmable logic and to achieve low latency and high throughput. The inference of required pragmas to produce the right interface for your function arguments and to pipeline loops and functions within your code is the foundation of Vitis HLS in the application acceleration flow. Vitis HLS also supports customization of your code to implement different interface standards or specific optimizations to achieve your design objectives.
+
+% Following is the Vitis HLS design flow:
+% \begin{enumerate}
+%     \item Compile, simulate, and debug the C/C++ algorithm.
+%     \item View reports to analyze and optimize the design.
+%     \item Synthesize the C algorithm into an RTL design.
+%     \item Verify the RTL implementation using RTL co-simulation.
+%     \item Package the RTL implementation into a compiled object file (.xo) extension, or export to an RTL IP.
+% \end{enumerate}

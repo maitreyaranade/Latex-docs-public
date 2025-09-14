@@ -1,0 +1,21 @@
+\begin{itemize}
+    \item Constant is something that never changes. In other words, once defined cannot be modified later in the code.
+    \item \#define is a preprocessor directive.
+    \begin{itemize}
+        \item Syntax: \#define name value (name is also called macro)
+        \item Avoid semicolon at the end in the syntax.
+        \item Choosing capital letters for name is good practice.
+        \item Preprocessor replaces Name with value.
+        \item We can use macros like functions.
+        \item First expansion then evaluation.
+        \item There are current predefined / standard Macros ex. \_\_TIME\_\_ \& \_\_DATE\_\_.
+    \end{itemize}
+    \item Const keyword
+    \begin{itemize}
+        \item A variable defined with the const modifier are considered variables, and not macro definitions. 
+        \item syntax: const data\_type variable\_name
+    \end{itemize}
+    \item Const-s are handled by the compiler, where as \#define-s are handled by the pre-processor.
+    \item The big advantage of const-s over \#define is type checking. \#define-s can't be type checked.
+    \item Since const-s are considered variables, we can use pointers on them. This means we can typecast, move addresses, and everything else you'd be able to do with a regular variable besides change the data itself, since the data assigned to that variable is constant.
+\end{itemize}

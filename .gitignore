@@ -1,0 +1,10 @@
+*.toc
+*.log
+*.gz
+*.out
+*.aux
+*.fls
+*.xdv
+*.fdb_latexmk
+build/
+Apoorva/build/

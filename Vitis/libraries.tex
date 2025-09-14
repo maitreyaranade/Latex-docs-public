@@ -1,0 +1,190 @@
+%Reference: Vitis Vision Library User Guide https://xilinx.github.io/Vitis_Libraries/vision/2021.2/overview.html#
+
+Vitis Unified Software Platform includes an extensive set of open-source, performance-optimized libraries that offer out-of-the-box acceleration with minimal to zero-code changes to the existing applications.
+
+\begin{itemize}
+    \item Xilinx offers the following Vitis accelerated-libraries:
+    \begin{itemize}
+        \item \textbf{Common Vitis accelerated-libraries} for Math, Statistics, Linear Algebra, and DSP offer a set of core functionality for a wide range of diverse applications.
+        \item \textbf{Domain-specific Vitis accelerated libraries} offer out-of-the-box acceleration for workloads like Vision and Image Processing, Quantitative Finance, Database, and Data Analytics, Data Compression etc.    
+        \item Leverage the rich growing ecosystem of \textbf{partner-accelerated libraries}, framework plug-ins, and accelerated applications to hit the ground running and accelerate your path to production.
+    \end{itemize}
+    \item Vitis accelerated-libraries can be \textbf{used in commonly-used programming languages} like C, C++, and Python.
+    \item Vitis accelerated-libraries are accessible to all developers through GitHub and scalable across all Xilinx platforms and hence are \textbf{scalable and flexible.}
+\end{itemize}
+
+\section{Vitis Vision Library}
+The Vitis Vision library is a set of 90+ kernels, optimized for Xilinx FPGAs, AI Engine, and SoCs, based on the OpenCV computer vision library. The kernels in the Vitis Vision library are optimized and supported in the Xilinx Vitis Tool Suite. The library provides a software interface for computer vision functions accelerated on FPGA and AI Engine devices.
+
+\subsection{Overview}
+The Vitis vision library has been designed to work in the Vitis development environment, and provides a software interface for computer vision functions accelerated on an FPGA device. Vitis vision library functions are mostly similar in functionality to their OpenCV equivalent. 
+
+\subsubsection{Basic Features}
+All Vitis vision library functions follow a common format. The following properties hold true for all the functions.
+\begin{itemize}
+    \item All the functions are designed as templates and all arguments that are images, must be provided as xf::cv::Mat.
+    \item All functions are defined in the xf::cv namespace.
+    \item Some of the major template arguments are: 
+    \begin{itemize}
+        \item Maximum size of the image to be processed
+        \item Datatype defining the properties of each pixel
+        \item Number of pixels to be processed per clock cycle
+        \item Other compile-time arguments relevant to the functionality.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Vitis Vision Library Contents}
+The following table lists the contents of the Vitis vision library.
+
+\begin{table}[H]
+  \centering
+  \refstepcounter{table}
+  \label{id20}
+  \resizebox{\linewidth}{!}{%
+  \begin{tabular}{|>{\hspace{0pt}}m{0.20\linewidth}|>{\hspace{0pt}}m{0.75\linewidth}|} 
+  \hline
+  Folder              & Details                                                                                                                                                                                                                                                                                      \\ 
+  \hline
+  L1/examples         & Contains the sample testbench code to facilitate running unit tests on Vitis/Vivado HLS. The examples/ has folders with algorithm names. Each algorithm folder contains testbench, accel, config, Makefile , Json file and a ‘build’ folder.                                                 \\ 
+  \hline
+  L1/include/aie      & Contains the infrastructure headers and AIE kernel definitions                                                                                                                                                                                                                               \\ 
+  \hline
+  L1/include/common   & Contains the common library infrastructure headers, such as types specific to the library.                                                                                                                                                                                                   \\ 
+  \hline
+  L1/include/core     & Contains the core library functionality headers, such as the math functions.                                                                                                                                                                             \\ 
+  \hline
+  L1/include/features & Contains the feature extraction kernel function definitions. For example, Harris.                                                                                                                                                                        \\ 
+  \hline
+  L1/include/imgproc  & Contains all the kernel function definitions related to image proce ssing definitions.                                                                                                                                                                                                       \\ 
+  \hline
+  L1/include/video    & Contains all the kernel function definitions, related to video proc essing functions.eg:Optical flow                                                                                                                                                                                         \\ 
+  \hline
+  L1/include/dnn      & Contains all the kernel function definitions, related to deep lea rning preprocessing.                                                                                                                                                                                                       \\ 
+  \hline
+  L1/tests            & Contains all test folders to run simulations, synthesis and export RTL.The tests folder contains the folders with algorithm names.Each algorithm folder further contains configuration folders, that has makefile and tcl files to run tests.                                                \\ 
+  \hline
+  L1/examples/build   & Contains xf\_config\_params.h file, which has configurable macros and varibales related to the particula r example.                                                                                                                                                                          \\ 
+  \hline
+  L1/lib/sw           & Contains the AIE data-movers library object files                                                                                                                                                                                                                                            \\ 
+  \hline
+  L2/examples         & Contains the sample testbench code to facilitate running unit tests on Vitis. The examples/ contains the folders with algorithm names. Each algorithm folder contains testbench, accel, config, Makefile , Json file and a ‘build’ folder.                                                   \\ 
+  \hline
+  L2/tests            & Contains all test folders to run software, hardware emulations and hardware build. The tests cont ains folders with algorithm names. Each algorithm folder further cont ains configuration folders, that has makefile and config files to run PL tests.                                      \\ 
+  \hline
+  L2/tests/aie        & Contains all test folders to run x86 simulation, hardware emulation and hardware build. The tests cont ains folders with algorithm names. Each algorithm folder further cont ains configuration folders, that has makefile, testbench, config and other required files to run the AIE tests  \\ 
+  \hline
+  L2/examples/build   & Contains xf\_config\_params.h file, which has configurable macros and varibales related to the particula r example.                                                                                                                                                                          \\ 
+  \hline
+  L3/examples         & Contains the sample testbench code to build pipeline functions on Vitis. The examples/ contains the folders with algorithm names. Each algorithm folder contains testbench, accel, config, Makefile , Json file and a ‘build’ folder.                                                        \\ 
+  \hline
+  L3/tests            & Contains all test folders to run software, hardware emulations and hardware build.The tests cont ains folders with algorithm names. Each algorithm name folder contai ns the configuration folders, inside configuration folders makefile is present to run tests.                           \\ 
+  \hline
+  L3/examples/build   & Contains xf\_config\_params.h file, which has configurable macros and varibales related to the particula r example.                                                                                                                                                                          \\ 
+  \hline
+  L3/benchmarks       & Contains benchmark examples to compare the software implementation versus FPGA implementation using Vitis vision library.                                                                                                                                                                    \\ 
+  \hline
+  ext                 & Contains the utility functions related to opencl hostcode.                                                                                                                                                                                                                                   \\
+  \hline
+  \end{tabular}
+  }
+\end{table}
+
+\clearpage
+
+\subsection{Getting Started with Vitis Vision}
+Describes the methodology to create a kernel, corresponding host code and a suitable makefile to compile a Vitis Vision kernel for any of the supported platforms in Vitis.
+
+\subsubsection{Vitis Design Methodology}
+There are three critical components in making a kernel work on a platform using Vitis:
+
+\begin{itemize}
+    \item Host code with OpenCL constructs
+    \item Wrappers around HLS Kernel(s)
+    \item Makefile to compile the kernel for emulation or running on hardware.
+\end{itemize}
+
+\paragraph{Host Code with OpenCL}
+Host code is compiled for the host machine that runs on the host and provides the data and control signals to the attached hardware with the FPGA. The host code is written using OpenCL constructs and provides capabilities for setting up, and running a kernel on the FPGA. The following functions are executed using the host code:
+\begin{itemize}
+  \item Loading the kernel binary on the FPGA - xcl::import\_binary\_file() loads the bitstream and programs the FPGA to enable required processing of data.
+  \item Setting up memory buffers for data transfer - Data needs to be sent and read from the DDR memory on the hardware. cl::Buffers are created to allocate required memory for transferring data to and from the hardware.
+  \item Transfer data to and from the hardware - enqueueWriteBuffer() and enqueueReadBuffer() are used to transfer the data to and from the hardware at the required time.
+  \item Execute kernel on the FPGA - There are functions to execute kernels on the FPGA. There can be single kernel execution or multiple kernel execution that could be asynchronous or synchronous with each other. Commonly used command is enqueueTask().
+  \item Profiling the performance of kernel execution - The host code in OpenCL also enables measurement of the execution time of a kernel on the FPGA. The function used in our examples for profiling is getProfilingInfo().
+\end{itemize}
+
+\paragraph{Wrappers around HLS Kernel(s)}
+All Vitis Vision kernels are provided with C++ function templates (located at <Github repo>/include) with image containers as objects of xf::cv::Mat class. In addition, these kernels will work either in stream based (where complete image is read continuously) or memory mapped (where image data access is in blocks).
+
+\par Vitis flow (OpenCL) requires kernel interfaces to be memory pointers with width in power(s) of 2. So glue logic is required for converting memory pointers to xf::cv::Mat class data type and vice-versa when interacting with Vitis Vision kernel(s). Wrapper(s) are build over the kernel(s) with this glue logic. 
+
+\par \textbf{Stream Based Kernels}
+To facilitate the conversion of pointer to xf::Mat and vice versa, two adapter functions are included as part of Vitis Vision xf::cv::Array2xfMat() and xf::cv::xfMat2Array(). It is necessary for the xf::Mat objects to be invoked as streams using HLS pragma with a minimum depth of 2. 
+
+\begin{itemize}
+  \item Array2xfMat function converts the input array to xf::cv::Mat.
+  \item xfMat2Array function converts the input xf::cv::Mat to output array.
+  \item There are two utility functions available in Vitis Vision, axiStrm2xfMat and xfMat2axiStrm to support streaming of data between two kernels.
+  \item axiStrm2xfMat is used by consumer kernel to support streaming data transfer between two kernels.
+  \item xfMat2axiStrm is used by producer kernel to support streaming data transfer between two kernels.
+\end{itemize}
+
+\par \textbf{Memory Mapped Kernels} In the memory map based kernels such as crop, Mean-shift tracking and bounding box, the input read will be for particular block of memory based on the requirement for the algorithm. The streaming interfaces will require the image to be read in raster scan manner, which is not the case for the memory mapped kernels.
+
+\subsubsection{Evaluating the Functionality}
+One can build the kernels and test the functionality through software emulation, hardware emulation, and running directly on a supported hardware with the FPGA.
+\begin{itemize}
+  \item \textbf{Software emulation} is equivalent to running a C-simulation of the kernel. The time for compilation is minimal, and is therefore recommended to be the first step in testing the kernel.
+  \item \textbf{Hardware emulation} runs the test on the generated RTL after synthesis of the C/C++ code. The simulation, since being done on RTL requires longer to complete when compared to software emulation. 
+  \item \textbf{Testing on the Hardware:} To test on the hardware, the kernel must be compiled into a bitstream (building for hardware). This would consume some time since the C/C++ code must be converted to RTL, run through synthesis and implementation process before a bitstream is created.
+\end{itemize}
+
+
+
+
+\iffalse
+
+\subsubsection{Vitis Design Methodology}
+\subsubsection{Vitis Design Methodology}
+\subsubsection{Vitis Design Methodology}
+
+
+The library is organized into the following levels: 
+\subsection{Level 1: HLS Functions and Modules}
+Examples that evaluate the Vitis Vision kernels, and demonstrate the kernels' use model in HLS flow
+
+The Level 1 APIs are presented as HLS C++ classes and functions. This level of API is mainly provide for hardware-savvy HLS developers. 
+
+
+\fi
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\iffalse
+
+Folder Name	Contents
+L1	Examples that evaluate the Vitis Vision kernels, and demonstrate the kernels' use model in HLS flow
+
+L2	Examples that evaluate the Vitis Vision kernels, and demonstrate the kernels' use model in Vitis flow.
+L3	Applications formed by stitching a pipeline of Vitis Vision functions
+ext	Utility functions used in the opencl host code
+data	Input images required to run examples and tests
+The organization of contents in each folder is described in the readmes of the respective folders.
+
+\fi
